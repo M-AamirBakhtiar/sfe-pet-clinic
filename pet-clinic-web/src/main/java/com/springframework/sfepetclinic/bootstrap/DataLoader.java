@@ -1,6 +1,7 @@
 package com.springframework.sfepetclinic.bootstrap;
 
 import com.springframework.sfepetclinic.model.Owner;
+import com.springframework.sfepetclinic.model.Pet;
 import com.springframework.sfepetclinic.model.PetType;
 import com.springframework.sfepetclinic.model.Vet;
 import com.springframework.sfepetclinic.services.OwnerService;
@@ -9,6 +10,8 @@ import com.springframework.sfepetclinic.services.VetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -28,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         PetType cat = new PetType();
-        cat.setName("Lina");
+        cat.setName("Cat");
         PetType savedCatPetType = petTypeService.save(cat);
 
         PetType dog = new PetType();
@@ -38,12 +41,32 @@ public class DataLoader implements CommandLineRunner {
         Owner owner1 = new Owner();
         owner1.setFirstName("Josh");
         owner1.setLastName("Wellington");
+        owner1.setAddress("444 Backers Street");
+        owner1.setCity("Los Angeles");
+        owner1.setTelephone("555-555-8989");
+
+        Pet joshsPet = new Pet();
+        joshsPet.setPetType(savedCatPetType);
+        joshsPet.setOwner(owner1);
+        joshsPet.setBirthDate(LocalDate.now());
+        joshsPet.setName("Lina");
+        owner1.getPets().add(joshsPet);
 
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
         owner2.setFirstName("Rob");
         owner2.setLastName("Peterson");
+        owner2.setAddress("4th to 5th Ave");
+        owner2.setCity("New York");
+        owner2.setTelephone("444-1236-5487");
+
+        Pet robsPet = new Pet();
+        robsPet.setPetType(savedDogPetType);
+        robsPet.setOwner(owner2);
+        robsPet.setBirthDate(LocalDate.now());
+        robsPet.setName("Courage");
+        owner2.getPets().add(robsPet);
 
         ownerService.save(owner2);
 
